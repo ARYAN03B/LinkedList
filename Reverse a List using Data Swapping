@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+struct Node {
+  int data;
+  struct Node* prev;
+  struct Node* next;
+};
+ 
+// Insert a new node at the head of the list
+void insert(struct Node** head, int val)
+{
+  struct Node* temp;
+  temp = (struct Node*)malloc(sizeof(struct Node));
+  temp->data = val;
+  temp->next = *head;
+  temp->prev = NULL;
+  if ((*head) != NULL) {
+    (*head)->prev = temp;
+  }
+  (*head) = temp;
+}
+ 
+void printList(struct Node* head)
+{
+  struct Node* temp = head;
+  while (temp->next != NULL) {
+    printf("%d <--> ", temp->data);
+    temp = temp->next;
+  }
+  printf("%d\n", temp->data);
+}
+ 
+// Function to reverse the list
+void reverseList(struct Node* head)
+{
+  struct Node* left = head;
+  struct Node* right = head;
+ 
+  // Traverse the list and set right pointer to
+  // end of list
+  while (right->next != NULL) {
+    right = right->next;
+  }
+ 
+  // Swap data of left and right pointer and move
+  // them towards each other until they meet or
+  // cross each other
+  while (left != right && left->prev != right) {
+ 
+    // Swap data of left and right pointer
+    int temp = left->data;
+    left->data = right->data;
+    right->data = temp;
+ 
+    // Advance left pointer
+    left = left->next;
+ 
+    // Advance right pointer
+    right = right->prev;
+  }
+}
+ 
+int main()
+{
+ 
+  // code
+  struct Node* head = NULL;
+  insert(&head, 5);
+  insert(&head, 4);
+  insert(&head, 3);
+  insert(&head, 2);
+  insert(&head, 1);
+ 
+  printList(head);
+  printf("List After Reversing\n");
+ 
+  reverseList(head);
+  printList(head);
+ 
+  return 0;
+  
+ }
